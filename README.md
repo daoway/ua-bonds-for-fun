@@ -1,0 +1,1 @@
+![profits_vs_exchange_rate_example.png](profits_vs_exchange_rate.png)
