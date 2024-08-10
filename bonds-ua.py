@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 class BondSpec:
     def __init__(self, coupon_rate, nominal_yield_rate, duration_years):
         self.coupon_rate = coupon_rate
@@ -11,6 +12,7 @@ class BondSpec:
         return (f"BondSpec(coupon_rate={self.coupon_rate}, "
                 f"nominal_yield_rate={self.nominal_yield_rate}, "
                 f"duration_years={self.duration_years})")
+
 
 class BondSpecBuilder:
     def __init__(self):
@@ -40,6 +42,7 @@ class BondSpecBuilder:
         if self._coupon_rate is None or self._nominal_yield_rate is None or self._duration_years is None:
             raise ValueError("All bond specifications must be set before building.")
         return BondSpec(self._coupon_rate, self._nominal_yield_rate, self._duration_years)
+
 
 def calculate_bond_yield(investment_usd, start_exchange_rate, end_exchange_rate, bond_spec):
     """
@@ -77,7 +80,9 @@ def calculate_bond_yield(investment_usd, start_exchange_rate, end_exchange_rate,
 
     return total_return_usd, profit_usd
 
-def visualize_profits(investment_usd, start_exchange_rate, end_exchange_rate_range, bond_spec, filename='profits_vs_exchange_rate.png'):
+
+def visualize_profits(investment_usd, start_exchange_rate, end_exchange_rate_range, bond_spec,
+                      filename='profits_vs_exchange_rate.png'):
     """
     Visualize how profit changes with varying end exchange rates and save the plot as a PNG file.
 
@@ -88,7 +93,8 @@ def visualize_profits(investment_usd, start_exchange_rate, end_exchange_rate_ran
     bond_spec (BondSpec): The specifications of the bond.
     filename (str): The name of the PNG file to save the plot.
     """
-    end_rates = np.arange(end_exchange_rate_range[0], end_exchange_rate_range[1] + end_exchange_rate_range[2], end_exchange_rate_range[2])
+    end_rates = np.arange(end_exchange_rate_range[0], end_exchange_rate_range[1] + end_exchange_rate_range[2],
+                          end_exchange_rate_range[2])
     profits = []
 
     for end_rate in end_rates:
@@ -105,6 +111,7 @@ def visualize_profits(investment_usd, start_exchange_rate, end_exchange_rate_ran
     plt.savefig(filename)  # Save the plot as a PNG file
     plt.close()  # Close the plot to free up memory
 
+
 # Example usage
 investment_usd = 1000  # Investment amount in USD
 start_exchange_rate = 37  # Exchange rate UAH/USD at the start
@@ -118,4 +125,5 @@ bond_spec = (BondSpecBuilder()
              .build())
 
 # Visualize profits and save the plot as a PNG file
-visualize_profits(investment_usd, start_exchange_rate, end_exchange_rate_range, bond_spec, 'profits_vs_exchange_rate.png')
+visualize_profits(investment_usd, start_exchange_rate, end_exchange_rate_range, bond_spec,
+                  'profits_vs_exchange_rate.png')
