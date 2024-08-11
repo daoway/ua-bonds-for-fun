@@ -1,4 +1,5 @@
-from bond import BondSpecBuilder, calculate_bond_yield
+from bond import BondSpecBuilder
+from bond_calc import calculate_bond_yield
 from visualization import visualize_profits
 import numpy as np
 
@@ -24,8 +25,8 @@ def main():
     profits_usd = []
 
     for end_exchange_rate in end_rates:
-        _, profit_usd = calculate_bond_yield(investment_usd, start_exchange_rate, end_exchange_rate, bond_spec)
-        profits_usd.append(profit_usd)
+        result = calculate_bond_yield(investment_usd, start_exchange_rate, end_exchange_rate, bond_spec)
+        profits_usd.append(result.profit_usd)
 
     # Visualize the profits
     visualize_profits(end_rates, profits_usd, 'profits_vs_exchange_rate.png')
