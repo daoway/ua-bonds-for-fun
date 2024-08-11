@@ -27,6 +27,9 @@ def calculate_nominal_yield(investment_uah: float, nominal_yield_rate: float, du
 
 
 def calculate_bond_yield(investment_usd: float, start_exchange_rate: float, end_exchange_rate: float, bond_spec: BondSpec) -> BondYieldResult:
+    if investment_usd <= 0:
+        raise ValueError("Investment amount must be a positive number.")
+
     investment_uah = convert_currency(investment_usd, start_exchange_rate)
 
     annual_coupon_payment = calculate_annual_coupon_payment(investment_uah, bond_spec.coupon_rate)
