@@ -11,11 +11,10 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the script into the container
-COPY bonds-ua.py .
-
+COPY *.py .
 
 # Make port 80 available to the world outside this container (optional if running a web server)
 # EXPOSE 80
 
-# Run bond_yield_calculator.py when the container launches
+# Run bonds-ua when the container launches
 CMD ["python", "./bonds-ua.py"]
