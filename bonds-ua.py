@@ -1,47 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
-
-class BondSpec:
-    def __init__(self, coupon_rate, nominal_yield_rate, duration_years):
-        self.coupon_rate = coupon_rate
-        self.nominal_yield_rate = nominal_yield_rate
-        self.duration_years = duration_years
-
-    def __repr__(self):
-        return (f"BondSpec(coupon_rate={self.coupon_rate}, "
-                f"nominal_yield_rate={self.nominal_yield_rate}, "
-                f"duration_years={self.duration_years})")
-
-
-class BondSpecBuilder:
-    def __init__(self):
-        self._coupon_rate = None
-        self._nominal_yield_rate = None
-        self._duration_years = None
-
-    def set_coupon_rate(self, coupon_rate):
-        if not (0 <= coupon_rate <= 100):
-            raise ValueError("Coupon rate must be between 0 and 100.")
-        self._coupon_rate = coupon_rate
-        return self
-
-    def set_nominal_yield_rate(self, nominal_yield_rate):
-        if not (0 <= nominal_yield_rate <= 100):
-            raise ValueError("Nominal yield rate must be between 0 and 100.")
-        self._nominal_yield_rate = nominal_yield_rate
-        return self
-
-    def set_duration_years(self, duration_years):
-        if duration_years <= 0:
-            raise ValueError("Duration in years must be greater than 0.")
-        self._duration_years = duration_years
-        return self
-
-    def build(self):
-        if self._coupon_rate is None or self._nominal_yield_rate is None or self._duration_years is None:
-            raise ValueError("All bond specifications must be set before building.")
-        return BondSpec(self._coupon_rate, self._nominal_yield_rate, self._duration_years)
+from bond import BondSpecBuilder
 
 
 def calculate_bond_yield(investment_usd, start_exchange_rate, end_exchange_rate, bond_spec):
@@ -112,18 +72,23 @@ def visualize_profits(investment_usd, start_exchange_rate, end_exchange_rate_ran
     plt.close()  # Close the plot to free up memory
 
 
-# Example usage
-investment_usd = 1000  # Investment amount in USD
-start_exchange_rate = 37  # Exchange rate UAH/USD at the start
-end_exchange_rate_range = (37, 150, 1)  # Range of end exchange rates (start, end, step)
+def main():
+    # Example usage
+    investment_usd = 1000  # Investment amount in USD
+    start_exchange_rate = 37  # Exchange rate UAH/USD at the start
+    end_exchange_rate_range = (37, 150, 1)  # Range of end exchange rates (start, end, step)
 
-# Create BondSpec object using Builder
-bond_spec = (BondSpecBuilder()
-             .set_coupon_rate(9.85)
-             .set_nominal_yield_rate(19.70)
-             .set_duration_years(2.5)
-             .build())
+    # Create BondSpec object using Builder
+    bond_spec = (BondSpecBuilder()
+                 .set_coupon_rate(9.85)
+                 .set_nominal_yield_rate(19.70)
+                 .set_duration_years(2.5)
+                 .build())
 
-# Visualize profits and save the plot as a PNG file
-visualize_profits(investment_usd, start_exchange_rate, end_exchange_rate_range, bond_spec,
-                  'profits_vs_exchange_rate.png')
+    # Visualize profits and save the plot as a PNG file
+    visualize_profits(investment_usd, start_exchange_rate, end_exchange_rate_range, bond_spec,
+                      'profits_vs_exchange_rate.png')
+
+
+if __name__ == "__main__":
+    main()
