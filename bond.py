@@ -41,3 +41,40 @@ class BondSpecBuilder:
         if self._coupon_rate is None or self._nominal_yield_rate is None or self._duration_years is None:
             raise ValueError("All bond specification fields must be set before building")
         return BondSpec(self._coupon_rate, self._nominal_yield_rate, self._duration_years)
+
+
+def calculate_bond_yield(investment_usd, start_exchange_rate, end_exchange_rate, bond_spec):
+    """
+    Calculate the total return and profit from investing in a bond with varying exchange rates.
+
+    Parameters:
+    investment_usd (float): The amount of investment in USD.
+    start_exchange_rate (float): The exchange rate from USD to UAH at the start.
+    end_exchange_rate (float): The exchange rate from USD to UAH at the end.
+    bond_spec (BondSpec): The specifications of the bond.
+
+    Returns:
+    tuple: Total return and profit in USD.
+    """
+    # Convert investment to UAH at the start exchange rate
+    investment_uah = investment_usd * start_exchange_rate
+
+    # Calculate annual coupon payment
+    annual_coupon_payment = investment_uah * bond_spec.coupon_rate / 100
+
+    # Total coupon payments over the bond's duration
+    total_coupon_payments = annual_coupon_payment * bond_spec.duration_years
+
+    # Calculate total nominal yield over the bond's duration
+    total_nominal_yield = investment_uah * bond_spec.nominal_yield_rate / 100 * bond_spec.duration_years
+
+    # Total return in UAH
+    total_return_uah = investment_uah + total_coupon_payments + total_nominal_yield
+
+    # Convert total return back to USD using the end exchange rate
+    total_return_usd = total_return_uah / end_exchange_rate
+
+    # Calculate profit in USD
+    profit_usd = total_return_usd - investment_usd
+
+    return total_return_usd, profit_usd
