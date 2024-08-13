@@ -1,0 +1,20 @@
+FROM jenkins/jenkins:lts
+
+USER root
+
+# Install necessary tools
+RUN apt-get update && apt-get install -y python3 python3-pip
+
+# Install any additional dependencies your project needs
+# RUN pip3 install <your-dependencies>
+
+USER jenkins
+
+# Add the Groovy initialization script to the init.groovy.d directory
+COPY init.groovy /usr/share/jenkins/ref/init.groovy.d/init.groovy
+
+# Copy any other necessary configuration or scripts
+#COPY my_other_config.xml /usr/share/jenkins/ref/jobs/my_job/config.xml
+
+# Define environment variables
+ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false
